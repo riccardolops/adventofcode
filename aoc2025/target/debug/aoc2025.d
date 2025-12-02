@@ -1,0 +1,1 @@
+/home/rick/Documenti/adventofcode/aoc2025/target/debug/aoc2025: /home/rick/Documenti/adventofcode/aoc2025/src/day01.rs /home/rick/Documenti/adventofcode/aoc2025/src/day02.rs /home/rick/Documenti/adventofcode/aoc2025/src/helpers.rs /home/rick/Documenti/adventofcode/aoc2025/src/main.rs
