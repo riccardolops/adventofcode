@@ -2,42 +2,40 @@ use crate::helpers;
 use std::path::Path;
 
 pub fn run() {
-    let _dial_start = 50;
-    let mut _current_pos1 = _dial_start;
-    let mut _current_pos2 = _dial_start;
-    let mut _pass_code1 = 0;
-    let mut _pass_code2 = 0;
-    let _input = helpers::read_file(Path::new("inputs/input/01"));
-    for line in _input.lines() {
-        let (direction, distance) = line.split_at(1);
-        let distance: i32 = distance.parse().unwrap();
-        _pass_code2 += distance / 100;
-        let _reminder = distance % 100;
+    let initial_position = 50;
+    let mut current_position1 = initial_position;
+    let mut current_position2 = initial_position;
+    let mut pass_code1 = 0;
+    let mut pass_code2 = 0;
+    let input = helpers::read_file(Path::new("inputs/input/01"));
+    for line in input.lines() {
+        let (direction, distance_str) = line.split_at(1);
+        let distance: i32 = distance_str.parse().unwrap();
+        pass_code2 += distance / 100;
+        let reminder = distance % 100;
 
         if direction == "R" {
-            _current_pos1 += distance;
+            current_position1 += distance;
         } else if direction == "L" {
-            _current_pos1 -= distance;
+            current_position1 -= distance;
         }
-        _current_pos1 = _current_pos1 % 100;
-        if _current_pos1 == 0 {
-            _pass_code1 += 1;
+        current_position1 = current_position1 % 100;
+        if current_position1 == 0 {
+            pass_code1 += 1;
         }
 
-        for _ in 0.._reminder {
+        for _ in 0..reminder {
             if direction == "R" {
-                _current_pos2 += 1;
+                current_position2 += 1;
             } else if direction == "L" {
-                _current_pos2 -= 1;
+                current_position2 -= 1;
             }
-            _current_pos2 = _current_pos2 % 100;
-            if _current_pos2 == 0 {
-                _pass_code2 += 1;
+            current_position2 = current_position2 % 100;
+            if current_position2 == 0 {
+                pass_code2 += 1;
             }
         }
     }
-    println!("Day 01 Part 1: {}", _pass_code1);
-    println!("Day 01 Part 2: {}", _pass_code2);
-
-    
+    println!("Day 01 Part 1: {}", pass_code1);
+    println!("Day 01 Part 2: {}", pass_code2);
 }

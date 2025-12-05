@@ -3,6 +3,9 @@ use chrono::{Datelike, Local};
 
 mod day01;
 mod day02;
+mod day03;
+mod day04;
+mod day05;
 mod helpers;
 
 fn main() {
@@ -21,9 +24,17 @@ fn main() {
             };
             &default_day.to_string()
     };
+    day01::run();
+    day02::run();
+    day03::run();
+    day04::run();
+    day05::run();
     match day {
         "1" => day01::run(),
         "2" => day02::run(),
+        "3" => day03::run(),
+        "4" => day04::run(),
+        "5" => day05::run(),
         _ => println!("Day not implemented"),
     }
 }

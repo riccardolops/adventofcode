@@ -2,72 +2,71 @@ use crate::helpers;
 use std::path::Path;
 
 fn is_invalid1(id: i64) -> bool {
-    let _id_str = id.to_string();
-    let _half = _id_str.len() / 2;
-    let _first_half = &_id_str[0.._half];
-    let _second_half = &_id_str[_half.._id_str.len()];
-    if _first_half == _second_half {
+    let id_str = id.to_string();
+    let half = id_str.len() / 2;
+    let first_half = &id_str[0..half];
+    let second_half = &id_str[half..id_str.len()];
+    if first_half == second_half {
         return true;
     }
     return false;
 }
 
 fn is_invalid2(id: i64) -> bool {
-    let _str_id = id.to_string();
-    let len = _str_id.len();
-    let mut _number_of_splits = 2;
-    let mut split = len / _number_of_splits;
+    let str_id = id.to_string();
+    let len = str_id.len();
+    let mut number_of_splits = 2;
+    let mut split = len / number_of_splits;
 
     while split > 0 {
-        if len % _number_of_splits != 0 {
-            _number_of_splits += 1;
-            split = len / _number_of_splits;
+        if len % number_of_splits != 0 {
+            number_of_splits += 1;
+            split = len / number_of_splits;
             continue;
         }
         let mut parts: Vec<&str> = Vec::new();
         let mut i = 0;
         while i + split <= len {
-            parts.push(&_str_id[i..i + split]);
+            parts.push(&str_id[i..i + split]);
             i += split;
         }
-        let mut are_equal = true;
+        let mut are_parts_equal = true;
         for j in 0..parts.len() {
             if parts[j] != parts[0] {
-                are_equal = false;
+                are_parts_equal = false;
                 break;
             }
         }
-        if are_equal {
+        if are_parts_equal {
             return true;
         }
-        _number_of_splits += 1;
-        split = len / _number_of_splits;
+        number_of_splits += 1;
+        split = len / number_of_splits;
     }
     false
 }
 
 pub fn run() {
-    let _input = helpers::read_file(Path::new("inputs/input/02"));
-    let _lines: Vec<String> = _input.lines().map(|line| line.trim().to_string()).collect();
-    let mut _sum_of_invalid_ids1 = 0;
-    let mut _sum_of_invalid_ids2 = 0;
-    for _line in _lines {
-        let _ranges = _line.split(",");
-        for _range in _ranges {
-            let _first_id = _range.split("-").collect::<Vec<&str>>()[0].parse().unwrap();
-            let _last_id: i64 = _range.split("-").collect::<Vec<&str>>()[1].parse().unwrap();
-            for _id in _first_id..=_last_id {
-                if is_invalid1(_id) {
-                    _sum_of_invalid_ids1 += _id;
+    let input = helpers::read_file(Path::new("inputs/input/02"));
+    let lines: Vec<String> = input.lines().map(|line| line.trim().to_string()).collect();
+    let mut sum_of_invalid_ids1 = 0;
+    let mut sum_of_invalid_ids2 = 0;
+    for line in lines {
+        let ranges = line.split(",");
+        for range in ranges {
+            let first_id = range.split("-").collect::<Vec<&str>>()[0].parse().unwrap();
+            let last_id: i64 = range.split("-").collect::<Vec<&str>>()[1].parse().unwrap();
+            for id in first_id..=last_id {
+                if is_invalid1(id) {
+                    sum_of_invalid_ids1 += id;
                 }
-                if is_invalid2(_id) {
-                    _sum_of_invalid_ids2 += _id;
-                    // println!("Invalid ID2: {}", _id);
-
+                if is_invalid2(id) {
+                    sum_of_invalid_ids2 += id;
+                    // println!("Invalid ID2: {}", id);
                 }
             }
         }
     }
-    println!("Day 02 Part 1: {}", _sum_of_invalid_ids1);
-    println!("Day 02 Part 2: {}", _sum_of_invalid_ids2);
+    println!("Day 02 Part 1: {}", sum_of_invalid_ids1);
+    println!("Day 02 Part 2: {}", sum_of_invalid_ids2);
 }

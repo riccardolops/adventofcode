@@ -7,13 +7,34 @@ if [[ -z "$AOC_SESSION" ]]; then
   exit 1
 fi
 
-YEAR=$(date +%Y)
-MONTH=$(date +%m)
-DAY=$(date +%-d)
+# ---- Parse arguments ----
+DAY_OVERRIDE=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -d|--day)
+      DAY_OVERRIDE="$2"
+      shift 2
+      ;;
+    *)
+      echo "Unknown argument: $1"
+      exit 1
+      ;;
+  esac
+done
 
-if [[ "$MONTH" -ne 12 ]] || [[ "$DAY" -lt 1 ]] || [[ "$DAY" -gt 25 ]]; then
-  echo "Today is not an Advent of Code day. Defaulting to day 1."
-  DAY=1
+YEAR=$(date +%Y)
+
+# Use override if provided
+if [[ -n "$DAY_OVERRIDE" ]]; then
+  DAY="$DAY_OVERRIDE"
+else
+  MONTH=$(date +%m)
+  DAY=$(date +%-d)
+
+  if [[ "$MONTH" -ne 12 ]] || [[ "$DAY" -lt 1 ]] || [[ "$DAY" -gt 25 ]]; then
+    echo "Today is not an Advent of Code day. Defaulting to day 1."
+    DAY=1
+  fi
 fi
 
 DAY_PAD=$(printf "%02d" "$DAY")
